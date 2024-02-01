@@ -21,7 +21,7 @@ Route::get('/', function () {
     $phoneNumber2 = '233254567890';    // Valid 12-digit number
     $phoneNumber3 = '1234567890';       // Invalid number
     $phoneNumber4 = '2332545678910';   // Invalid number
-
+    var_dump(General::does_not_contain_space('helloworld'));
     var_dump(General::validate_phone_number($phoneNumber1));
     var_dump(General::validate_phone_number($phoneNumber2));
     var_dump(General::validate_phone_number($phoneNumber3));
