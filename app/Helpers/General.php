@@ -28,4 +28,14 @@ class General
         }
         return false;
     }
+
+    public static function does_not_contain_space($string_value)
+    {
+        // Check if the string contains any space
+        if (strpos($string_value, ' ') !== false) {
+            return false; // String contains space, return false
+        } else {
+            return true;
+        }
+    }
 }
