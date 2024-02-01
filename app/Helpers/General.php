@@ -33,10 +33,10 @@ class General
     {
         // Check if the string contains any space
         if (strpos($string_value, ' ') !== false) {
-            return 'Contain space';
+            // return 'Contain space';
             return false; // String contains space, return false
         } else {
-            return 'Does not contain space';
+            // return 'Does not contain space';
             return true;
         }
     }
