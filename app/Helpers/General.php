@@ -40,4 +40,11 @@ class General
             return true;
         }
     }
+
+    public static function contains_only_alphabets($inputString) {
+        if (ctype_alpha($inputString)) {
+            return true;
+        }
+        return false;
+    }
 }
