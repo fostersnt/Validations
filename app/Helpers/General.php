@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
+
 class General
 {
     public static function addNumbers($a, $b)
@@ -52,10 +54,48 @@ class General
         }
     }
 
-    public static function contains_only_alphabets($inputString) {
+    public static function contains_only_alphabets($inputString)
+    {
         if (ctype_alpha($inputString)) {
             return true;
         }
         return false;
+    }
+
+    public static function store_file($file, $sub_directory)
+    {
+        try {
+            $file_original_name = $file->getClientOriginalName();
+            $path = storage_path("app/public/$sub_directory");
+            $file_custom_name = time() . '_' . Str::random(8) . '_' . $file_original_name;
+            $file->move($path, $file_custom_name);
+
+            return [
+                'file_name' => $file_custom_name,
+                'status' => 'success',
+            ];
+        } catch (\Throwable $th) {
+            Log::error("ERROR MESSAGE: " . $th->getMessage());
+            return [
+                'file_name' => null,
+                'status' => 'failed',
+            ];
+        }
+    }
+
+    public function storage_path_existence($file_name, $sub_directory)
+    {
+        if ($file_name != null) {
+            $fullPath = storage_path("app/public/$sub_directory/$file_name");
+            return file_exists($fullPath) && is_file($fullPath);
+        }
+    }
+
+    public function public_path_existence($file_name, $sub_directory)
+    {
+        if ($file_name != null) {
+            $fullPath = public_path("$sub_directory/$file_name");
+            return file_exists($fullPath) && is_file($fullPath);
+        }
     }
 }

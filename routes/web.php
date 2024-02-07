@@ -32,6 +32,7 @@ Route::get('/abcd', function () {
     // return view('welcome');
 });
 
-Route::prefix('admin')->controller(ProductController::class)->group(function(){
-    Route::get('home', 'show_create');
+Route::prefix('product')->controller(ProductController::class)->group(function(){
+    Route::get('show-create', 'show_create')->name('product.show.create');
+    Route::post('create', 'create_product')->name('product.create');
 });
