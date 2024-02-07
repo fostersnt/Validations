@@ -138,6 +138,12 @@ return [
             'path' => storage_path('logs/product.log'),
             'level' => 'debug',
         ],
+
+        'file_upload' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/file_upload.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];
