@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Helpers\General;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Log;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::get('/', function () {
+Route::get('/abcd', function () {
     // return General::addNumbers(2, 4);
     // Test the function
     Log::channel('sms_response')->error("\nERROR MESSAGE OCCURED");
@@ -29,4 +30,8 @@ Route::get('/', function () {
     var_dump(General::validate_phone_number($phoneNumber3));
     var_dump(General::validate_phone_number($phoneNumber4));
     // return view('welcome');
+});
+
+Route::prefix('admin')->controller(ProductController::class)->group(function(){
+    Route::get('home', 'show_create');
 });

@@ -131,7 +131,13 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/sms_response.log'),
             'level' => 'debug',
-        ]
+        ],
+
+        'product' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/product.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];

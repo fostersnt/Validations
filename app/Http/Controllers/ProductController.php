@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     //
+    public function show_create()
+    {
+        return view('welcome');
+    }
 
     public function create_product(Request $request)
     {
@@ -31,6 +35,5 @@ class ProductController extends Controller
                 return back()->with("error", "An error occurred");
             }
         }
-
     }
 }
