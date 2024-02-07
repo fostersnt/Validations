@@ -9,8 +9,19 @@ class General
         return $a + $b;
     }
 
+    public static function sanitize_input($text)
+    {
+        // $data = trim($text);
+        $data = stripslashes($text);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     public static function validate_phone_number($phoneNumber)
     {
+        //Remove unnecessary characters from the phone number
+        $phoneNumber = self::sanitize_input($phoneNumber);
+
         // Check if the phone number contains any non-digit character
         if (preg_match('/\D/', $phoneNumber)) {
             return false;
