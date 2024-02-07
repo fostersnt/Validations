@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Helpers\General;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ use App\Helpers\General;
 Route::get('/', function () {
     // return General::addNumbers(2, 4);
     // Test the function
+    Log::channel('sms_response')->error("\nERROR MESSAGE OCCURED");
     $phoneNumber1 = '0234567890';       // Valid 10-digit number
     $phoneNumber2 = '233254567890';    // Valid 12-digit number
     $phoneNumber3 = '1234567890';       // Invalid number
