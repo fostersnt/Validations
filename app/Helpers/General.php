@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class General
 {
@@ -75,7 +76,7 @@ class General
                 'status' => 'success',
             ];
         } catch (\Throwable $th) {
-            Log::error("ERROR MESSAGE: " . $th->getMessage());
+            Log::channel('product')->error("ERROR MESSAGE: " . $th->getMessage());
             return [
                 'file_name' => null,
                 'status' => 'failed',

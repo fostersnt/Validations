@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\General;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -26,8 +27,13 @@ class ProductController extends Controller
             return back()->with('error', $validator->errors()->first());
         } else {
             try {
+                $data['name'] = $request->name;
+                if ($request->image != null) {
+                    $result = General::store_file($request->image, 'Product_Image');
+                    $data['image'] = $result['file_name'];
+                }
                 Product::query()->create([
-                    'name' => $request->name,
+                    $data
                 ]);
                 return back()->with('success', 'Product has been created successfully');
             } catch (\Throwable $th) {
