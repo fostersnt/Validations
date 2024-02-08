@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    //
     public function show_create()
     {
         return view('welcome');
@@ -27,7 +26,6 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return back()->with('error', $validator->errors()->first());
         } else {
-            // dd($request->all());
             try {
                 $data['name'] = $request->name;
 
@@ -35,13 +33,10 @@ class ProductController extends Controller
                     $result = General::store_file($request->image, 'Product_Image');
                     $data['image'] = $result['file_name'];
 
-                    // dd($result['file_name']);
-
                     // I intended to use job/queue for file upload processing but I leter
                     // realized that jobs/queues are not meant to be used for processing files
                     // FileUploadJob::dispatch($request->image, 'Product_Image', 'product', $product->id);
                 }
-                    // dd($data);
                     Product::query()->create($data);
                 return back()->with('success', 'Product has been created successfully');
             } catch (\Throwable $th) {
