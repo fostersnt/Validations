@@ -114,13 +114,14 @@ class General
         //main_directory is the main directory where you want the file to be moved to.
 
         try {
-            $check_public = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
-            $check_storage = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
+            //This line returns true if the file exists in the
+            $file_check = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
+            // $check_storage = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
 
-            if ($check_public) {
+            if ($file_check && strtolower($main_directory) == 'public') {
                 Storage::move(public_path("$sub_directory/$my_file_name"));
                 return true;
-            } elseif ($check_storage) {
+            } elseif ($file_check && strtolower($main_directory) == 'storage') {
                 Storage::move(storage_path("app/public/$sub_directory/$my_file_name"));
                 return true;
             } else {
