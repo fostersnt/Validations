@@ -116,7 +116,6 @@ class General
         try {
             //This line returns true if the file exists in the
             $file_check = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
-            // $check_storage = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
 
             if ($file_check && strtolower($main_directory) == 'public') {
                 Storage::move(public_path("$sub_directory/$my_file_name"));

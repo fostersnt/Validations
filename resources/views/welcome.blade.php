@@ -62,11 +62,11 @@
                         @endif
                     </div>
                     <div class="mb-3">
-                            <label class="" for="">Name</label>
+                            <label class="text-muted" for="">Product Name</label>
                         <input class="form-control" type="text" name="name" id="name">
                     </div>
                     <div class="mb-3">
-                            <label class="" for="">Image</label>
+                            <label class="text-muted" for="">Product Image</label>
                             <input class="form-control" type="file" name="image" id="">
                             <input class="form-control" type="text" name="image_name" id="image_name">
                     </div>
