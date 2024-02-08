@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class General
@@ -70,11 +71,9 @@ class General
 
             if (strtolower($main_directory) == 'public') {
                 $path = public_path($sub_directory);
-            }
-            elseif (strtolower($main_directory) == 'storage') {
+            } elseif (strtolower($main_directory) == 'storage') {
                 $path = storage_path("app/public/$sub_directory");
-            }
-            else {
+            } else {
                 $path = '';
             }
             $file_custom_name = time() . '_' . Str::random(8) . '_' . str_replace([' ', '-'], '_', $file_original_name);
@@ -93,19 +92,43 @@ class General
         }
     }
 
-    public function storage_path_existence($file_name, $sub_directory)
+    public static function check_file_existence($file_name, $main_directory, $sub_directory)
     {
         if ($file_name != null) {
-            $fullPath = storage_path("app/public/$sub_directory/$file_name");
-            return file_exists($fullPath) && is_file($fullPath);
+            if (strtolower($main_directory) == 'public') {
+                $fullPath = public_path("$sub_directory/$file_name");
+                return file_exists($fullPath) && is_file($fullPath);
+            }
+            elseif (strtolower($main_directory) == 'storage') {
+                $fullPath = storage_path("app/public/$sub_directory/$file_name");
+                return file_exists($fullPath) && is_file($fullPath);
+            }
+            else {
+                return false;
+            }
         }
     }
 
-    public function public_path_existence($file_name, $sub_directory)
+    public static function move_file($my_file_name, $main_directory, $sub_directory)
     {
-        if ($file_name != null) {
-            $fullPath = public_path("$sub_directory/$file_name");
-            return file_exists($fullPath) && is_file($fullPath);
+        //main_directory is the main directory where you want the file to be moved to.
+
+        try {
+            $check_public = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
+            $check_storage = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
+
+            if ($check_public) {
+                Storage::move(public_path("$sub_directory/$my_file_name"));
+                return true;
+            } elseif ($check_storage) {
+                Storage::move(storage_path("app/public/$sub_directory/$my_file_name"));
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            Log::channel('file_upload')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
+            return false;
         }
     }
 }
