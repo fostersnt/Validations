@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Helpers\General;
+use App\Http\Controllers\FilePondProcessingController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Log;
 
@@ -35,4 +36,13 @@ Route::get('/abcd', function () {
 Route::prefix('product')->controller(ProductController::class)->group(function(){
     Route::get('show-create', 'show_create')->name('product.show.create');
     Route::post('create', 'create_product')->name('product.create');
+});
+
+
+Route::prefix('file')->controller(FilePondProcessingController::class)->group(function(){
+    Route::post('save', 'process_file');
+    Route::post('revert', 'revert_file');
+    Route::post('restore', 'restore_file');
+    Route::post('load', 'load_file');
+    Route::post('fetch', 'fetch_file');
 });
