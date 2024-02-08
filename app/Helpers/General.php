@@ -68,7 +68,7 @@ class General
         try {
             $file_original_name = $file->getClientOriginalName();
             $path = storage_path("app/public/$sub_directory");
-            $file_custom_name = time() . '_' . Str::random(8) . '_' . $file_original_name;
+            $file_custom_name = time() . '_' . Str::random(8) . '_' . str_replace([' ', '-'], '_', $file_original_name);
             $file->move($path, $file_custom_name);
 
             return [
