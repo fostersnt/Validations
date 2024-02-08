@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General;
+use App\Models\TemporalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -11,23 +12,33 @@ class FilePondProcessingController extends Controller
     public function process_file(Request $request)
     {
         try {
-            $result = General::store_file($request->image, 'storage', 'Temporal_Files');
-            if ($result['file_name'] != null) {
-                return response()->json([
-                    'message' => 'success',
+            $result = General::store_file($request->image, 'storage', 'Product_Image');
+            $exists = General::check_file_existence($result['file_name'], 'storage', 'Product_Image');
+
+            if ($result['file_name'] != null && $exists) {
+
+                $temp = TemporalFile::query()->create([
                     'file_name' => $result['file_name'],
+                ]);
+
+                return response()->json([
+                    'message' => 'File has been uploaded successfully',
+                    'status' => 'success',
+                    'temp_file_id' => $temp->id,
                 ]);
             } else {
                 return response()->json([
-                    'message' => 'failed',
-                    'file_name' => $result['file_name'],
+                    'message' => 'Product image not found',
+                    'status' => 'failed',
+                    'temp_file_id' => null,
                 ]);
             }
         } catch (\Throwable $th) {
             Log::channel('file_upload')->error("\nERROR MESSAGE: " . $th->getMessage());
             return response()->json([
                 'message' => 'Error occurred while processing file',
-                'file_name' => null,
+                'status' => 'failed',
+                'temp_file_id' => null,
             ]);
         }
     }

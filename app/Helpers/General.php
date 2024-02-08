@@ -109,21 +109,28 @@ class General
         }
     }
 
-    public static function move_file($my_file_name, $main_directory, $sub_directory)
+    public static function move_file($my_file_name, $source_directory, $destination_directory)
     {
         //main_directory is the main directory where you want the file to be moved to.
 
         try {
             //This line returns true if the file exists in the
-            $file_check = self::check_file_existence($my_file_name, $main_directory, $sub_directory);
+            $check_public = self::check_file_existence($my_file_name, 'public', $source_directory);
+            $check_storage = self::check_file_existence($my_file_name, 'storage', $source_directory);
 
-            if ($file_check && strtolower($main_directory) == 'public') {
-                Storage::move(public_path("$sub_directory/$my_file_name"));
+            if ($check_public) {
+                $source = public_path("$source_directory/$my_file_name");
+                $destination = public_path("$destination_directory/$my_file_name");
+                Storage::move($source, $destination);
                 return true;
-            } elseif ($file_check && strtolower($main_directory) == 'storage') {
-                Storage::move(storage_path("app/public/$sub_directory/$my_file_name"));
+            } elseif ($check_storage) {
+                $source = storage_path("app/public/$source_directory/$my_file_name");
+                $destination = "public/$destination_directory";
+                Log::channel('file_upload')->info("\nDESTINATION: " . $destination);
+                Storage::move($source, $destination);
                 return true;
             } else {
+                Log::channel('file_upload')->info("\nFAILED TO MOVE THE FILE: $my_file_name");
                 return false;
             }
         } catch (\Throwable $th) {

@@ -68,7 +68,7 @@
                     <div class="mb-3">
                             <label class="text-muted" for="">Product Image</label>
                             <input class="form-control" type="file" name="image" id="">
-                            <input class="form-control" type="text" name="image_name" id="image_name">
+                            <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
                     </div>
                     <div class="mt-3">
                         <button class="btn btn-primary w-100" id="submit_btn">Submit</button>
@@ -110,8 +110,9 @@
                     // const message = response.message;
                     // handle successful upload response
                     const content = JSON.parse(response);
-                    $('#image_name').val(content.file_name)
-                    console.log(content.file_name);
+                    $('#temporal_file_id').val(content.temp_file_id)
+                    console.log(content.temp_file_id);
+                    console.log(content.message);
                 },
                 onerror: (error) => {
                     // handle upload error
