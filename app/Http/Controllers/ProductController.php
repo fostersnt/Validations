@@ -7,6 +7,7 @@ use App\Jobs\FileUploadJob;
 use App\Models\Product;
 use App\Models\TemporalFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,28 +32,25 @@ class ProductController extends Controller
             return back()->with('error', $validator->errors()->first());
         } else {
             try {
-                $data['name'] = $request->name;
-                // $moving_file = General::move_file($request->image_name, 'Temporal_Files', 'Product_Image');
-                $temp_file = TemporalFile::query()->find($request->temporal_file_id);
-                if ($temp_file != null) {
-                $exists = General::check_file_existence($temp_file->file_name ?? 'Unknown', 'storage', 'Product_Image');
-                if ($exists) {
-                    $data['image'] = $temp_file->file_name;
-                } else {
-                    return back()->with('error', 'This product does not have image');
-                }
+                $outcome = DB::transaction(function () use($request) {
+                    $data['name'] = $request->name;
 
-                }
-                // if ($request->image != null) {
-                //     $result = General::store_file($request->image,'storage', 'Product_Image');
-                //     $data['image'] = $result['file_name'];
+                    $temp_file = TemporalFile::query()->find($request->temporal_file_id);
+                    if ($temp_file != null) {
+                        $exists = General::check_file_existence($temp_file->file_name ?? 'Unknown', 'storage', 'Product_Image');
+                        if ($exists) {
+                            $data['image'] = $temp_file->file_name;
+                        } else {
+                            return ['error', 'This product does not have image'];
+                        }
+                    }
 
-                //     // I intended to use job/queue for file upload processing but I leter
-                //     // realized that jobs/queues are not meant to be used for processing files
-                //     // FileUploadJob::dispatch($request->image, 'Product_Image', 'product', $product->id);
-                // }
                     Product::query()->create($data);
-                return back()->with('success', 'Product has been created successfully');
+                    $temp_file->delete();
+
+                    return ['success', 'Product has been created successfully'];
+                });
+                return back()->with($outcome[0], $outcome[1]);
             } catch (\Throwable $th) {
                 Log::channel('product')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
                 return back()->with("error", "An error occurred");
