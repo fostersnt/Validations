@@ -63,11 +63,20 @@ class General
         return false;
     }
 
-    public static function store_file($file, $sub_directory)
+    public static function store_file($file, $main_directory, $sub_directory)
     {
         try {
             $file_original_name = $file->getClientOriginalName();
-            $path = storage_path("app/public/$sub_directory");
+
+            if (strtolower($main_directory) == 'public') {
+                $path = public_path($sub_directory);
+            }
+            elseif (strtolower($main_directory) == 'storage') {
+                $path = storage_path("app/public/$sub_directory");
+            }
+            else {
+                $path = '';
+            }
             $file_custom_name = time() . '_' . Str::random(8) . '_' . str_replace([' ', '-'], '_', $file_original_name);
             $file->move($path, $file_custom_name);
 

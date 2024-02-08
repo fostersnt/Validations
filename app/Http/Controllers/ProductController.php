@@ -30,7 +30,7 @@ class ProductController extends Controller
                 $data['name'] = $request->name;
 
                 if ($request->image != null) {
-                    $result = General::store_file($request->image, 'Product_Image');
+                    $result = General::store_file($request->image,'storage', 'Product_Image');
                     $data['image'] = $result['file_name'];
 
                     // I intended to use job/queue for file upload processing but I leter
