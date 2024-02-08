@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General;
+use App\Jobs\FileUploadJob;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -28,13 +29,18 @@ class ProductController extends Controller
         } else {
             try {
                 $data['name'] = $request->name;
-                if ($request->image != null) {
-                    $result = General::store_file($request->image, 'Product_Image');
-                    $data['image'] = $result['file_name'];
-                }
-                Product::query()->create([
+
+                $product = Product::query()->create([
                     $data
                 ]);
+
+                if ($request->image != null) {
+                    // $result = General::store_file($request->image, 'Product_Image');
+                    // $data['image'] = $result['file_name'];
+                    // dd($request->image);
+                    FileUploadJob::dispatch($request->image, 'Product_Image', 'product', $product->id);
+                }
+
                 return back()->with('success', 'Product has been created successfully');
             } catch (\Throwable $th) {
                 Log::channel('product')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());

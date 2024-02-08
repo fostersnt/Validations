@@ -39,23 +39,23 @@ class FileUploadJob implements ShouldQueue
         try {
             $result = General::store_file($this->file, $this->sub_directory);
             if ($result['file_name'] != null) {
-                switch ($this->model) {
-                    case 'product':
+                // switch ($this->model) {
+                //     case 'product':
                         Product::query()->find($this->id)->update([
                             'image' => $result['file_name']
                         ]);
-                        break;
-                    case 'user':
-                        User::query()->find($this->id)->update([
-                            'image' => $result['file_name']
-                        ]);
-                        break;
+                    //     break;
+                    // case 'user':
+                    //     User::query()->find($this->id)->update([
+                    //         'image' => $result['file_name']
+                    //     ]);
+                    //     break;
 
-                    default:
-                        # code...
-                        break;
+                    // default:
+                    //     # code...
+                    //     break;
                 }
-            }
+            // }
         } catch (\Throwable $th) {
             Log::channel('file_upload')->error("\nERROR MESSAGE: " . $th->getMessage());
         }
