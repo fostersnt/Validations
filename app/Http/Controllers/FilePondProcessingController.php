@@ -13,7 +13,7 @@ class FilePondProcessingController extends Controller
     public function process_file(Request $request)
     {
             $validator = Validator::make($request->all(), [
-                'image' => 'required|mimes:png,jpg,jpeg,xlxs,pdf,xls',
+                'image' => 'required|mimes:png,jpg,jpeg,xlsx,pdf,xls',
             ]);
             if ($validator->fails()) {
                 return response()->json([

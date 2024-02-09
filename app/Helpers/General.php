@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\TemporalFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -67,7 +68,7 @@ class General
     public static function store_file($file, $main_directory, $sub_directory)
     {
         // if ($file->extension() == 'png') {
-            Log::info("\nEXTENSION IS: " . $file
+        Log::info("\nEXTENSION IS: " . $file
             ->extension());
         // }
         try {
@@ -102,12 +103,10 @@ class General
             if (strtolower($main_directory) == 'public') {
                 $fullPath = public_path("$sub_directory/$file_name");
                 return file_exists($fullPath) && is_file($fullPath);
-            }
-            elseif (strtolower($main_directory) == 'storage') {
+            } elseif (strtolower($main_directory) == 'storage') {
                 $fullPath = storage_path("app/public/$sub_directory/$file_name");
                 return file_exists($fullPath) && is_file($fullPath);
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -140,6 +139,98 @@ class General
         } catch (\Throwable $th) {
             Log::channel('file_upload')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
             return false;
+        }
+    }
+
+    public static function read_excel_file($file_id)
+    {
+        $my_cell_values = [];
+        $my_cells = [];
+        $issues = [];
+        $names = [];
+
+        try {
+            $excel_file = TemporalFile::query()->find($file_id);
+
+            $file_path = '';
+            $exists = false;
+
+            if ($excel_file == null) {
+                return [
+                    'success' => false,
+                    'message' => "There is file that matches the file id you passed",
+                ];
+            }
+
+            $exists = General::check_file_existence($excel_file->file_name, 'storage', 'Product_Image');
+
+            if ($excel_file != null && $exists) {
+                $file_path = storage_path("app/public/Product_Image/$excel_file->file_name");
+            }
+
+            /** Identify the type of $inputFileName **/
+            $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_path);
+
+            /** Create a new Reader of the type that has been identified **/
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+
+            /** Load $inputFileName to a Spreadsheet Object **/
+            $spreadsheet = $reader->load($file_path);
+
+            /** Get all sheet names **/
+            $sheetNames = $spreadsheet->getSheetNames();
+
+            /** Loop through each sheet **/
+            foreach ($sheetNames as $sheetName) {
+                /** Get the worksheet by name **/
+                $worksheet = $spreadsheet->getSheetByName($sheetName);
+
+                /** Output the sheet name **/
+                // echo "Sheet Name: $sheetName" . PHP_EOL;
+
+                /** Loop through rows and cells in the sheet **/
+                foreach ($worksheet->getRowIterator() as $row) {
+                    $cellIterator = $row->getCellIterator();
+                    // $rr = $row->getRO
+                    if ($row->getRowIndex() >= 2) {
+                        $first_name = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
+                        $last_name = $worksheet->getCell('B' . $row->getRowIndex())->getValue();
+                        $age = $worksheet->getCell('C' . $row->getRowIndex())->getValue();
+                        $gender = $worksheet->getCell('D' . $row->getRowIndex())->getValue();
+
+                        $null_check = $first_name != null && $last_name != null && $age != null && $gender != null;
+
+                        if ($null_check) {
+                            array_push($names, [$first_name, $last_name, $age, $gender]);
+                        }
+                    }
+
+                    $cellIterator->setIterateOnlyExistingCells(false);
+
+                    // foreach ($cellIterator as $cell) {
+                    //     // echo $cell->getValue() . "\t";
+                    //     array_push($my_cell_values, $cell->getValue());
+                    //     array_push($my_cells, $cell->getCoordinate());
+                    //     if ($cell->getValue() == null) {
+                    //         array_push($issues, "Resolve the issue in Cell " . $cell->getCoordinate() . " at Row " . $row->getRowIndex());
+                    //     }
+                    // }
+                }
+            }
+            Log::info("\nEXCEL DATA: " . json_encode($my_cell_values));
+            return [
+                'success' => true,
+                'cells' => $my_cells,
+                'cell_values' => $my_cell_values,
+                'issues' => $issues,
+                'names' => $names
+            ];
+        } catch (\Throwable $th) {
+            Log::channel('excel_reading')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
+            return [
+                'success' => false,
+                'message' => $th->getMessage(),
+            ];
         }
     }
 }

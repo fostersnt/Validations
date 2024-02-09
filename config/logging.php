@@ -144,6 +144,12 @@ return [
             'path' => storage_path('logs/file_upload.log'),
             'level' => 'debug',
         ],
+
+        'excel_reading' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/excel_reading.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];
