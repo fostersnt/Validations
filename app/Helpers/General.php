@@ -6,14 +6,10 @@ use App\Models\TemporalFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class General
 {
-    public static function addNumbers($a, $b)
-    {
-        return $a + $b;
-    }
-
     public static function sanitize_input($text)
     {
         // $data = trim($text);
@@ -115,7 +111,6 @@ class General
     public static function move_file($my_file_name, $source_directory, $destination_directory)
     {
         //main_directory is the main directory where you want the file to be moved to.
-
         try {
             //This line returns true if the file exists in the
             $check_public = self::check_file_existence($my_file_name, 'public', $source_directory);
@@ -142,6 +137,19 @@ class General
         }
     }
 
+    public static function convert_excel_date_using_php_spreadsheet($excelDateValue)
+    {
+        try {
+            $timestamp = Date::excelToTimestamp($excelDateValue);
+            // $humanReadableDate = date('Y-m-d H:i:s', $timestamp);
+            $humanReadableDate = date('Y-m-d', $timestamp);
+            return $humanReadableDate;
+        } catch (\Throwable $th) {
+            Log::info("\nATTEMPT TO CONVERT EXCEL DATE USING PHP SPREADSHEET: " . $th->getMessage());
+            return null;
+        }
+    }
+
     public static function read_excel_file($file_id)
     {
         $my_cell_values = [];
@@ -158,7 +166,7 @@ class General
             if ($excel_file == null) {
                 return [
                     'success' => false,
-                    'message' => "There is file that matches the file id you passed",
+                    'message' => "There is no file that matches the file id you provided",
                 ];
             }
 
@@ -196,12 +204,13 @@ class General
                         $first_name = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
                         $last_name = $worksheet->getCell('B' . $row->getRowIndex())->getValue();
                         $age = $worksheet->getCell('C' . $row->getRowIndex())->getValue();
-                        $gender = $worksheet->getCell('D' . $row->getRowIndex())->getValue();
+                        $date_of_birth = $worksheet->getCell('D' . $row->getRowIndex())->getValue();
 
-                        $null_check = $first_name != null && $last_name != null && $age != null && $gender != null;
+                        $null_check = $first_name != null && $last_name != null && $age != null && $date_of_birth != null;
 
                         if ($null_check) {
-                            array_push($names, [$first_name, $last_name, $age, $gender]);
+                            $new_date_of_birth = self::convert_excel_date_using_php_spreadsheet($date_of_birth);
+                            array_push($names, [$first_name, $last_name, $age, $new_date_of_birth]);
                         }
                     }
 

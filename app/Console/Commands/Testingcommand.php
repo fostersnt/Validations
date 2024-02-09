@@ -32,7 +32,7 @@ class Testingcommand extends Command
         // $name = $this->option('name');
         // $phone = $this->argument('phone_number');
         // Log::info("\nNAME: " . $name . "\nPHONE NUMBER: " . $phone);
-        $result = General::read_excel_file(7);
+        $result = General::read_excel_file(1);
         if ($result['success']) {
             foreach ($result['names'] as $item) {
                 array_push($items, $item);
