@@ -6,12 +6,23 @@ use App\Helpers\General;
 use App\Models\TemporalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class FilePondProcessingController extends Controller
 {
     public function process_file(Request $request)
     {
-        try {
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|mimes:png,jpg,jpeg,xlxs,pdf,xls',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->errors()->first(),
+                    'status' => 'failed',
+                    'temp_file_id' => null,
+                ]);
+            }
+            try {
             $result = General::store_file($request->image, 'storage', 'Product_Image');
             $exists = General::check_file_existence($result['file_name'], 'storage', 'Product_Image');
 

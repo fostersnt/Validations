@@ -66,6 +66,10 @@ class General
 
     public static function store_file($file, $main_directory, $sub_directory)
     {
+        // if ($file->extension() == 'png') {
+            Log::info("\nEXTENSION IS: " . $file
+            ->extension());
+        // }
         try {
             $file_original_name = $file->getClientOriginalName();
 
