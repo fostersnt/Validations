@@ -150,6 +150,34 @@ class General
         }
     }
 
+    public static function delete_file($file_name, $main_directory, $sub_directory)
+    {
+        $filePath = '';
+        try {
+            if (strtolower($main_directory) == 'storage') {
+                $filePath = storage_path("app/public/$sub_directory/$file_name");
+                // $exists = self::check_file_existence($file_name, $main_directory, $sub_directory);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                    return true;
+                }
+            }
+            elseif (strtolower($main_directory) == 'public') {
+                $filePath = storage_path("app/public/$sub_directory/$file_name");
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            Log::channel("file_upload")->error("\nATTEMPT TO DELETE A FILE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
+            return false;
+        }
+    }
+
     public static function read_excel_file($file_id)
     {
         $my_cell_values = [];
@@ -172,9 +200,14 @@ class General
 
             $exists = General::check_file_existence($excel_file->file_name, 'storage', 'Product_Image');
 
-            if ($excel_file != null && $exists) {
-                $file_path = storage_path("app/public/Product_Image/$excel_file->file_name");
+            if ($excel_file->file_name == null || !$exists) {
+                return [
+                    'success' => false,
+                    'message' => "File does not exist",
+                ];
             }
+
+            $file_path = storage_path("app/public/Product_Image/$excel_file->file_name");
 
             /** Identify the type of $inputFileName **/
             $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_path);
