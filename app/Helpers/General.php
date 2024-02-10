@@ -108,35 +108,6 @@ class General
         }
     }
 
-    public static function move_file($my_file_name, $source_directory, $destination_directory)
-    {
-        //main_directory is the main directory where you want the file to be moved to.
-        try {
-            //This line returns true if the file exists in the
-            $check_public = self::check_file_existence($my_file_name, 'public', $source_directory);
-            $check_storage = self::check_file_existence($my_file_name, 'storage', $source_directory);
-
-            if ($check_public) {
-                $source = public_path("$source_directory/$my_file_name");
-                $destination = public_path("$destination_directory/$my_file_name");
-                Storage::move($source, $destination);
-                return true;
-            } elseif ($check_storage) {
-                $source = storage_path("app/public/$source_directory/$my_file_name");
-                $destination = "public/$destination_directory";
-                Log::channel('file_upload')->info("\nDESTINATION: " . $destination);
-                Storage::move($source, $destination);
-                return true;
-            } else {
-                Log::channel('file_upload')->info("\nFAILED TO MOVE THE FILE: $my_file_name");
-                return false;
-            }
-        } catch (\Throwable $th) {
-            Log::channel('file_upload')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
-            return false;
-        }
-    }
-
     public static function convert_excel_date_using_php_spreadsheet($excelDateValue)
     {
         try {
