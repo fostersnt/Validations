@@ -48,7 +48,6 @@ class Testingcommand extends Command
             } else {
                 $this->error($output['message']);
             }
-            
         } catch (\Throwable $th) {
             $this->error($th->getMessage());
         }

@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf;
 use Barryvdh\DomPDF\Facade as myPDF;
 
 class General
@@ -277,7 +276,7 @@ class General
                 // Save the spreadsheet with a custom name
                 $customFileName = 'product_data_' . now()->format('YmdHis') . '.xlsx';
                 $writer = new Xlsx($spreadsheet);
-                $writer->save(storage_path('app/' . $customFileName));
+                $writer->save(storage_path('app/public/' . $customFileName));
 
                 // Return the custom name
                 return [
@@ -301,6 +300,7 @@ class General
         }
     }
 
+    //YOU NEED INSTALL Mpdf LIBRARY;
     public static function write_to_excel_pdf()
     {
         try {
@@ -327,7 +327,8 @@ class General
 
             // Save the spreadsheet as PDF with a custom name
             $customFileName = 'product_data_' . now()->format('YmdHis') . '.pdf';
-            $pdfWriter = new Pdf($spreadsheet);
+            //YOU NEED INSTALL Mpdf LIBRARY;
+            $pdfWriter = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
             $pdfWriter->save(storage_path('app/public/' . $customFileName));
 
             // Return the custom name
