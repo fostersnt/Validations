@@ -264,12 +264,12 @@ class General
 
                 // Loop through users data and fill columns
                 $worksheet->setCellValue('A1', 'Name');
-                $worksheet->setCellValue('C1', 'Image');
+                $worksheet->setCellValue('B1', 'Image');
 
                 $row = 2;
                 foreach ($products as $product) {
                     $worksheet->setCellValue('A' . $row, $product->name);
-                    $worksheet->setCellValue('C' . $row, $product->image);
+                    $worksheet->setCellValue('B' . $row, $product->image);
                     $row++;
                 }
 
@@ -315,13 +315,13 @@ class General
             $worksheet->setTitle('ProductData');
 
             $worksheet->setCellValue('A1', 'Name');
-            $worksheet->setCellValue('C1', 'Image');
+            $worksheet->setCellValue('B1', 'Image');
 
             // Loop through users data and fill columns
             $row = 2;
             foreach ($users as $user) {
                 $worksheet->setCellValue('A' . $row, $user->name);
-                $worksheet->setCellValue('C' . $row, $user->image);
+                $worksheet->setCellValue('B' . $row, $user->image);
                 $row++;
             }
 
@@ -361,13 +361,13 @@ class General
             $worksheet->setTitle('ProductData');
 
             $worksheet->setCellValue('A1', 'Name');
-            $worksheet->setCellValue('C1', 'Image');
+            $worksheet->setCellValue('B1', 'Image');
 
             // Loop through users data and fill columns
             $row = 2;
             foreach ($users as $user) {
                 $worksheet->setCellValue('A' . $row, $user->name);
-                $worksheet->setCellValue('C' . $row, $user->image);
+                $worksheet->setCellValue('B' . $row, $user->image);
                 $row++;
             }
 
