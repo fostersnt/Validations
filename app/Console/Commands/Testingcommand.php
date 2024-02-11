@@ -42,11 +42,11 @@ class Testingcommand extends Command
         //     $this->error("No data read");
         // }
         try {
-            $output = General::write_to_excel_xlsx();
+            $output = General::write_to_excel_pdf();
             if ($output['success'] == true) {
                 $this->info("\nEXCEL FILE HAS BEEN GENERATED SUCCESSFULLY");
             } else {
-                $this->error("\nFAILED TO GENERATED EXCEL DATA");
+                $this->error($output['message']);
             }
             
         } catch (\Throwable $th) {

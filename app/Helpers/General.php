@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf;
+use Barryvdh\DomPDF\Facade as myPDF;
 
 class General
 {
@@ -285,14 +287,61 @@ class General
             } else {
                 return [
                     'success' => false,
-                    'file_name' => null
+                    'file_name' => null,
+                    'message' => 'Excel generated successfully',
                 ];
             }
         } catch (\Throwable $th) {
             Log::channel('excel_reading')->error("\nATTEMPT TO WRITE TO EXCEL FILE\n" . $th->getMessage() . "\n LINE NUMBER: " . $th->getLine());
             return [
                 'success' => false,
-                'file_name' => null
+                'file_name' => null,
+                'message' => $th->getMessage(),
+            ];
+        }
+    }
+
+    public static function write_to_excel_pdf()
+    {
+        try {
+            // Create a new spreadsheet
+            $spreadsheet = new Spreadsheet();
+
+            // Fetch all users from the users table
+            $users = Product::all();
+
+            // Create a new worksheet and add it to the spreadsheet with a custom name
+            $worksheet = $spreadsheet->getActiveSheet();
+            $worksheet->setTitle('ProductData');
+
+            $worksheet->setCellValue('A1', 'Name');
+            $worksheet->setCellValue('C1', 'Image');
+
+            // Loop through users data and fill columns
+            $row = 2;
+            foreach ($users as $user) {
+                $worksheet->setCellValue('A' . $row, $user->name);
+                $worksheet->setCellValue('C' . $row, $user->image);
+                $row++;
+            }
+
+            // Save the spreadsheet as PDF with a custom name
+            $customFileName = 'product_data_' . now()->format('YmdHis') . '.pdf';
+            $pdfWriter = new Pdf($spreadsheet);
+            $pdfWriter->save(storage_path('app/public/' . $customFileName));
+
+            // Return the custom name
+            return [
+                'success' => true,
+                'file_name' => $customFileName,
+                'message' => 'PDF generated successfully',
+            ];
+        } catch (\Throwable $th) {
+            Log::channel('excel_reading')->error("\nATTEMPT TO WRITE EXCEL TO PDF\n" . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
+            return [
+                'success' => false,
+                'file_name' => null,
+                'message' => $th->getMessage(),
             ];
         }
     }
