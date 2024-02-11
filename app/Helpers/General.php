@@ -2,11 +2,14 @@
 
 namespace App\Helpers;
 
+use App\Models\Product;
 use App\Models\TemporalFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class General
 {
@@ -132,15 +135,13 @@ class General
                     unlink($filePath);
                     return true;
                 }
-            }
-            elseif (strtolower($main_directory) == 'public') {
+            } elseif (strtolower($main_directory) == 'public') {
                 $filePath = storage_path("app/public/$sub_directory/$file_name");
                 if (file_exists($filePath)) {
                     unlink($filePath);
                     return true;
                 }
-            }
-            else {
+            } else {
                 return false;
             }
         } catch (\Throwable $th) {
@@ -157,7 +158,7 @@ class General
         $names = [];
 
         try {
-            $excel_file = TemporalFile::query()->find($file_id);
+            $excel_file = Product::query()->find($file_id);
 
             $file_path = '';
             $exists = false;
@@ -169,23 +170,23 @@ class General
                 ];
             }
 
-            $exists = General::check_file_existence($excel_file->file_name, 'storage', 'Product_Image');
+            $exists = General::check_file_existence($excel_file->image, 'storage', 'Product_Image');
 
-            if ($excel_file->file_name == null || !$exists) {
+            if ($excel_file->image == null || !$exists) {
                 return [
                     'success' => false,
                     'message' => "File does not exist",
                 ];
             }
 
-            $file_path = storage_path("app/public/Product_Image/$excel_file->file_name");
+            $file_path = storage_path("app/public/Product_Image/$excel_file->image");
 
             /** Identify the type of $inputFileName **/
             $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_path);
 
             /** Create a new Reader of the type that has been identified **/
             $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-            
+
             /** Load $inputFileName to a Spreadsheet Object **/
             $spreadsheet = $reader->load($file_path);
 
@@ -243,6 +244,55 @@ class General
             return [
                 'success' => false,
                 'message' => $th->getMessage(),
+            ];
+        }
+    }
+
+    public static function write_to_excel_xlsx()
+    {
+        try {
+            // Fetch all users from the users table
+            $products = Product::all();
+
+            if (count($products) > 0) {
+                // Create a new spreadsheet
+                $spreadsheet = new Spreadsheet();
+                // Create a new worksheet and add it to the spreadsheet with a custom name
+                $worksheet = $spreadsheet->getActiveSheet();
+                $worksheet->setTitle('ProductData');
+
+                // Loop through users data and fill columns
+                $worksheet->setCellValue('A1', 'Name');
+                $worksheet->setCellValue('C1', 'Image');
+
+                $row = 2;
+                foreach ($products as $product) {
+                    $worksheet->setCellValue('A' . $row, $product->name);
+                    $worksheet->setCellValue('C' . $row, $product->image);
+                    $row++;
+                }
+
+                // Save the spreadsheet with a custom name
+                $customFileName = 'product_data_' . now()->format('YmdHis') . '.xlsx';
+                $writer = new Xlsx($spreadsheet);
+                $writer->save(storage_path('app/' . $customFileName));
+
+                // Return the custom name
+                return [
+                    'success' => true,
+                    'file_name' => $customFileName
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'file_name' => null
+                ];
+            }
+        } catch (\Throwable $th) {
+            Log::channel('excel_reading')->error("\nATTEMPT TO WRITE TO EXCEL FILE\n" . $th->getMessage() . "\n LINE NUMBER: " . $th->getLine());
+            return [
+                'success' => false,
+                'file_name' => null
             ];
         }
     }

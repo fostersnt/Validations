@@ -32,14 +32,25 @@ class Testingcommand extends Command
         // $name = $this->option('name');
         // $phone = $this->argument('phone_number');
         // Log::info("\nNAME: " . $name . "\nPHONE NUMBER: " . $phone);
-        $result = General::read_excel_file(1);
-        if ($result['success']) {
-            foreach ($result['names'] as $item) {
-                array_push($items, $item);
+        // $result = General::read_excel_file(2);
+        // if ($result['success'] && count($result['names']) > 0) {
+        //     foreach ($result['names'] as $item) {
+        //         array_push($items, $item);
+        //     }
+        //     echo json_encode($items);
+        // } else {
+        //     $this->error("No data read");
+        // }
+        try {
+            $output = General::write_to_excel_xlsx();
+            if ($output['success'] == true) {
+                $this->info("\nEXCEL FILE HAS BEEN GENERATED SUCCESSFULLY");
+            } else {
+                $this->error("\nFAILED TO GENERATED EXCEL DATA");
             }
-            echo json_encode($items);
-        } else {
-            $this->error($result['message']);
+            
+        } catch (\Throwable $th) {
+            $this->error($th->getMessage());
         }
     }
 }
