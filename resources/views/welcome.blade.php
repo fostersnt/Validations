@@ -13,18 +13,7 @@
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-    <!--FIilepond css-->
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    <!--Filepond Image Preview css-->
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-        rel="stylesheet" />
-    <!--Media (VIDEO) Preview css-->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.css">
-    <!--PDF Preview css-->
-    <link href="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.css"
-        rel="stylesheet">
+    @include('filepond.css_cdn')
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -99,16 +88,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!--FIilepond js-->
-<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-<!--Filepond Image Preview js-->
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<!--Media (VIDEO) Preview js-->
-<script
-    src="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.js">
-</script>
-<!--PDF Prevview js-->
-<script src="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.js"></script>
+@include('filepond.js_cdn')
 
 <script>
     // Get a reference to the file input element
