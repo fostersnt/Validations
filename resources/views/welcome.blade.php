@@ -14,14 +14,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-    <!--FIilepond css Plugin-->
+    <!--FIilepond css-->
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    <!--Filepond Image Preview-->
+    <!--Filepond Image Preview css-->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
         rel="stylesheet" />
     <!--Media (VIDEO) Preview css-->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.css">
+    <!--PDF Preview css-->
+    <link href="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.css"
+        rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -72,7 +75,9 @@
                     </div>
                     <div class="mb-3">
                         <label class="text-muted" for="">Product Name</label>
-                        <input class="form-control" type="text" name="name" id="name">
+                        <input class="form-control" type="text" name="name" id="name"
+                            data-pdf-preview-height="320"
+                            data-pdf-component-extra-params="toolbar=0&navpanes=0&scrollbar=0&view=fitH">
                     </div>
                     <div class="mb-3">
                         <label class="text-muted" for="">Product Image</label>
@@ -92,20 +97,25 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!--FIilepond js Plugin-->
+<!--FIilepond js-->
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <!--Filepond Image Preview js-->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<!--Media (VIDEO) Preview-->
+<!--Media (VIDEO) Preview js-->
 <script
     src="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.js">
 </script>
+<!--PDF Prevview js-->
+<script src="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.js"></script>
 
 <script>
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[type="file"]');
+
     FilePond.registerPlugin(FilePondPluginImagePreview);
     FilePond.registerPlugin(FilePondPluginMediaPreview);
+    FilePond.registerPlugin(FilePondPluginPdfPreview);
+
     // Create a FilePond instance
     const pond = FilePond.create(inputElement);
 
@@ -114,6 +124,9 @@
     FilePond.setOptions({
         imagePreviewMaxHeight: 150,
         imagePreviewMaxWidth: 150,
+
+        allowPdfPreview: true,
+        pdfComponentExtraParams: 'toolbar=0&view=fit&page=1',
 
         server: {
             process: {
