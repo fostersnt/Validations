@@ -16,6 +16,10 @@
 
     <!--FIilepond css Plugin-->
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <!--Filepond Image Preview-->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet" />
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,20 +28,23 @@
     <!-- Styles -->
 
     <style>
-        .container{
+        .container {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-        #form_container{
+
+        #form_container {
             width: 300px;
         }
-        #submit_btn{
+
+        #submit_btn {
             margin-top: 20px;
         }
-        a.filepond--credits{
+
+        a.filepond--credits {
             display: none;
         }
     </style>
@@ -62,13 +69,13 @@
                         @endif
                     </div>
                     <div class="mb-3">
-                            <label class="text-muted" for="">Product Name</label>
+                        <label class="text-muted" for="">Product Name</label>
                         <input class="form-control" type="text" name="name" id="name">
                     </div>
                     <div class="mb-3">
-                            <label class="text-muted" for="">Product Image</label>
-                            <input class="form-control" type="file" name="image" id="">
-                            <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
+                        <label class="text-muted" for="">Product Image</label>
+                        <input class="form-control" type="file" name="image" id="">
+                        <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
                     </div>
                     <div class="mt-3">
                         <button class="btn btn-primary w-100" id="submit_btn">Submit</button>
@@ -85,17 +92,22 @@
 
 <!--FIilepond js Plugin-->
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<!--Filepond Image Preview js-->
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 
 <script>
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[type="file"]');
-
+    FilePond.registerPlugin(FilePondPluginImagePreview);
     // Create a FilePond instance
     const pond = FilePond.create(inputElement);
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     FilePond.setOptions({
+        imagePreviewMaxHeight: 150,
+        imagePreviewMaxWidth: 150,
+
         server: {
             process: {
                 url: '/file/save', // Your process route
