@@ -13,6 +13,7 @@
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!--Filepond css-->
     @include('filepond.css_cdn')
 
     <!-- Fonts -->
@@ -41,6 +42,7 @@
         a.filepond--credits {
             display: none;
         }
+
         /* .filepond--item {width: calc(33% - 0.5em);} */
     </style>
 
@@ -88,6 +90,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<!--Filepond js-->
 @include('filepond.js_cdn')
 
 <script>
