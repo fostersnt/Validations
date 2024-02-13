@@ -214,7 +214,7 @@ class General
 
             /** Create a new Reader of the type that has been identified **/
             $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-            
+
             /** Load $inputFileName to a Spreadsheet Object **/
             $spreadsheet = $reader->load($file_path);
 
