@@ -52,7 +52,9 @@
         a.filepond--credits {
             display: none;
         }
+        /* .filepond--item {width: calc(33% - 0.5em);} */
     </style>
+
 </head>
 
 <body class="">
@@ -122,12 +124,6 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     FilePond.setOptions({
-        imagePreviewMaxHeight: 150,
-        imagePreviewMaxWidth: 150,
-
-        allowPdfPreview: true,
-        pdfComponentExtraParams: 'toolbar=0&view=fit&page=1',
-
         server: {
             process: {
                 url: '/file/save', // Your process route
