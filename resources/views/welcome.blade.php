@@ -19,7 +19,9 @@
     <!--Filepond Image Preview-->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
         rel="stylesheet" />
-
+    <!--Media (VIDEO) Preview css-->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -94,11 +96,16 @@
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <!--Filepond Image Preview js-->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<!--Media (VIDEO) Preview-->
+<script
+    src="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.js">
+</script>
 
 <script>
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[type="file"]');
     FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginMediaPreview);
     // Create a FilePond instance
     const pond = FilePond.create(inputElement);
 
