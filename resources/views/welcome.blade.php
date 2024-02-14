@@ -105,8 +105,8 @@
     const pond = FilePond.create(inputElement);
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
     FilePond.setOptions({
+        stylePanelLayout: 'integrated',
         server: {
             process: {
                 url: '/file/save', // Your process route
@@ -121,6 +121,7 @@
                     // const message = response.message;
                     // handle successful upload response
                     const content = JSON.parse(response);
+                    completed_upload = 'Uploaded';
                     $('#temporal_file_id').val(content.temp_file_id)
                     console.log(content.temp_file_id);
                     console.log(content.message);
@@ -135,5 +136,6 @@
             load: './load', // Your load route
             fetch: './fetch', // Your fetch route
         },
+        labelFileProcessingComplete: completed_upload,
     });
 </script>
