@@ -16,6 +16,9 @@
     <!--Filepond css-->
     @include('filepond.css_cdn')
 
+    <!--Full Calendar-->
+    @include('full_calendar.calendar_css')
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -23,16 +26,21 @@
     <!-- Styles -->
 
     <style>
-        .container {
+
+        #left_column, #right_column {
+            /* width: 300px; */
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            /* flex-direction: column; */
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /* text-align: center; */
         }
-
-        #form_container {
-            width: 300px;
+        #left_column{
+            border: 1px solid rgb(206, 197, 197);
+        }
+        #right_column{
+            /* background-color: #0e6efd; */
         }
 
         #submit_btn {
@@ -49,30 +57,28 @@
 </head>
 
 <body class="">
-    <div class="container">
-        <div class="row">
-            <div class="" id="form_container">
+    {{-- <div class="container"> --}}
+        <div class="row d-none">
+            <div class="col-md-6" id="left_column">
+                <div class="row">
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger">
+                            {{ Session::get('error') }}
+                        </div>
+                    @endif
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                </div>
                 <form action="{{ route('product.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="row">
-                        @if (Session::has('error'))
-                            <div class="alert alert-danger">
-                                {{ Session::get('error') }}
-                            </div>
-                        @endif
-                        @if (Session::has('success'))
-                            <div class="alert alert-success">
-                                {{ Session::get('success') }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label class="text-muted" for="">Product Name</label>
-                        <input class="form-control" type="text" name="name" id="name"
-                            data-pdf-preview-height="320"
-                            data-pdf-component-extra-params="toolbar=0&navpanes=0&scrollbar=0&view=fitH">
+                        <input class="form-control" type="text" name="name" id="name">
                     </div>
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label class="text-muted" for="">Product Image</label>
                         <input class="form-control" type="file" name="image" id="">
                         <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
@@ -83,6 +89,11 @@
                 </form>
             </div>
         </div>
+    {{-- </div> --}}
+    <div class="container">
+        {{-- <div class="col-md-6" id="right_column"> --}}
+            <div id="calendar"></div>
+        {{-- </div> --}}
     </div>
 </body>
 
@@ -92,6 +103,12 @@
 
 <!--Filepond js-->
 @include('filepond.js_cdn')
+
+<!--Fullpage.js js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+@include('full_calendar.calendar_js')
 
 <script>
     // Get a reference to the file input element
@@ -136,6 +153,5 @@
             load: './load', // Your load route
             fetch: './fetch', // Your fetch route
         },
-        labelFileProcessingComplete: completed_upload,
     });
 </script>

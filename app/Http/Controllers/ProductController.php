@@ -15,7 +15,8 @@ class ProductController extends Controller
 {
     public function show_create()
     {
-        return view('welcome');
+        $products = Product::query()->get();
+        return view('welcome', compact('products'));
     }
 
     public function create_product(Request $request)
