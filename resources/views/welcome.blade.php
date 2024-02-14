@@ -93,8 +93,12 @@
     </div>
     {{-- </div> --}}
     <div class="container">
+        <h1>STATIC FULL CALENDAR</h1>
+        <span class="text-danger">(Scroll down for DYNAMIC CALENDAR)</span>
         <div id="static_calendar"></div>
-        <div class="mb-4"></div>
+    </div>
+    <div class="container">
+        <h1>DYNAMIC FULL CALENDAR</h1>
         <div id="dynamic_calendar"></div>
     </div>
 </body>
@@ -107,7 +111,6 @@
 @include('filepond.js_cdn')
 
 <!--Fullpage.js js-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 
 @include('full_calendar.calendar_js')

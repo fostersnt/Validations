@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\General;
 use App\Jobs\FileUploadJob;
+use App\Models\EventData;
 use App\Models\Product;
 use App\Models\TemporalFile;
 use Illuminate\Http\Request;
@@ -56,6 +57,16 @@ class ProductController extends Controller
                 Log::channel('product')->error("\nERROR MESSAGE: " . $th->getMessage() . "\nLINE NUMBER: " . $th->getLine());
                 return back()->with("error", "An error occurred");
             }
+        }
+    }
+
+    public function getEvents()
+    {
+        try {
+            $events = EventData::query()->get();
+        return response()->json($events);
+        } catch (\Throwable $th) {
+            Log::info("\nATTEMPT TO GET EVENTS DATA: " . $th->getMessage());
         }
     }
 }

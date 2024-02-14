@@ -1,3 +1,6 @@
+<!--Moment js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <!--Full calendar.js-->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
@@ -89,13 +92,23 @@
     in order to access that property, we need to use extendedProps to get to the
     */
     var events_dynamic = {
-                url: '/get-events', // Laravel route that returns JSON events
+                url: '/product/get-events', // Laravel route that returns JSON events
                 method: 'GET',
                 extraParams: {
                     // Add any additional parameters needed for your API
                 },
-                startParam: 'customStartDateProperty',
-                endParam: 'customEndDateProperty',
+                startParam: 'start_date',
+                endParam: 'end_date',
+                eventDataTransform: function(eventData) {
+                    // Convert date format here
+                    eventData.start = moment(eventData.start_date).format('YYYY-MM-DDTHH:mm:ss');
+                    eventData.end = moment(eventData.end_date).format('YYYY-MM-DDTHH:mm:ss');
+
+                    // You can also add or modify other properties as needed
+                    eventData.title = eventData.event_title;
+
+                    return eventData;
+                },
             };
 
 
@@ -107,7 +120,7 @@
             events: events_dynamic,
             eventClick: function(info) {
                 // window.location.href = info.event.url;
-                alert('Event Clicked\nTitle: ' + info.event.title + '\nDetails: ' + info.event.extendedProps.description);
+                alert('Event Clicked\nTitle: ' + info.event.title + '\nDetails: ' + info.event.extendedProps.event_description);
             },
             eventMouseEnter: function(info) {
                 console.log('Mouse Enter Event:', info.event.title);
