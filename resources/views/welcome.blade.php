@@ -26,8 +26,8 @@
     <!-- Styles -->
 
     <style>
-
-        #left_column, #right_column {
+        #left_column,
+        #right_column {
             /* width: 300px; */
             min-height: 100vh;
             display: flex;
@@ -36,10 +36,12 @@
             align-items: center;
             /* text-align: center; */
         }
-        #left_column{
+
+        #left_column {
             border: 1px solid rgb(206, 197, 197);
         }
-        #right_column{
+
+        #right_column {
             /* background-color: #0e6efd; */
         }
 
@@ -58,42 +60,42 @@
 
 <body class="">
     {{-- <div class="container"> --}}
-        <div class="row d-none">
-            <div class="col-md-6" id="left_column">
-                <div class="row">
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                </div>
-                <form action="{{ route('product.create') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row mb-3">
-                        <label class="text-muted" for="">Product Name</label>
-                        <input class="form-control" type="text" name="name" id="name">
+    <div class="row d-none">
+        <div class="col-md-6" id="left_column">
+            <div class="row">
+                @if (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
                     </div>
-                    <div class="row mb-3">
-                        <label class="text-muted" for="">Product Image</label>
-                        <input class="form-control" type="file" name="image" id="">
-                        <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
+                @endif
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
                     </div>
-                    <div class="mt-3">
-                        <button class="btn btn-primary w-100" id="submit_btn">Submit</button>
-                    </div>
-                </form>
+                @endif
             </div>
+            <form action="{{ route('product.create') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row mb-3">
+                    <label class="text-muted" for="">Product Name</label>
+                    <input class="form-control" type="text" name="name" id="name">
+                </div>
+                <div class="row mb-3">
+                    <label class="text-muted" for="">Product Image</label>
+                    <input class="form-control" type="file" name="image" id="">
+                    <input class="form-control" type="text" hidden name="temporal_file_id" id="temporal_file_id">
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary w-100" id="submit_btn">Submit</button>
+                </div>
+            </form>
         </div>
+    </div>
     {{-- </div> --}}
     <div class="container">
-        {{-- <div class="col-md-6" id="right_column"> --}}
-            <div id="calendar"></div>
-        {{-- </div> --}}
+        <div id="static_calendar"></div>
+        <div class="mb-4"></div>
+        <div id="dynamic_calendar"></div>
     </div>
 </body>
 
