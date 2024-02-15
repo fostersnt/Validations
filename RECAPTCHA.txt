@@ -19,7 +19,8 @@ HOW TO IMPLEMENT RECAPTCHA
     RECAPTCHA_SECRET=your-secret-key
 
 9. Publish the recaptcha package by running the command below:
-    php artisan vendor:publish --provider="Anhskohbo\NoCaptcha\NoCaptchaServiceProvider"
+   {php artisan vendor:publish --provider="Anhskohbo\NoCaptcha\NoCaptchaServiceProvider"}
+    Check config/captcha.php to ensure the configuration is correct
 
 10. Use the recaptcha in your blade by puttting the line below:
     <form method="POST" action="/your-route">
