@@ -101,8 +101,8 @@
                 endParam: 'end_date',
                 eventDataTransform: function(eventData) {
                     // Convert date format here
-                    eventData.start = moment(eventData.start_date).format('YYYY-MM-DDTHH:mm:ss');
-                    eventData.end = moment(eventData.end_date).format('YYYY-MM-DDTHH:mm:ss');
+                    eventData.start = moment(eventData.start_date).format('YYYY-MM-DD');
+                    eventData.end = moment(eventData.end_date).format('YYYY-MM-DD');
 
                     // You can also add or modify other properties as needed
                     eventData.title = eventData.event_title;
