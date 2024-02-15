@@ -19,6 +19,10 @@
     <!--Full Calendar-->
     @include('full_calendar.calendar_css')
 
+    <!--Toastr css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -60,9 +64,9 @@
 
 <body class="">
     {{-- <div class="container"> --}}
-    <div class="row d-none">
+    <div class="row">
         <div class="col-md-6" id="left_column">
-            <div class="row">
+            {{-- <div class="row">
                 @if (Session::has('error'))
                     <div class="alert alert-danger">
                         {{ Session::get('error') }}
@@ -73,7 +77,7 @@
                         {{ Session::get('success') }}
                     </div>
                 @endif
-            </div>
+            </div> --}}
             <form action="{{ route('product.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
@@ -114,6 +118,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 
 @include('full_calendar.calendar_js')
+
+<!--Toastr js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@if (Session::has('success'))
+    <script>
+        toastr.options = {
+            'progressBar': true,
+            'closeButton': true,
+        };
+        toastr.success("{{Session::get('success')}}", 'success', {timeOut: 10000});
+    </script>
+@endif
 
 <script>
     // Get a reference to the file input element
