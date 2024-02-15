@@ -1,0 +1,45 @@
+HOW TO IMPLEMENT RECAPTCHA
+
+1. Visit {https://www.google.com/recaptcha/admin}
+
+2. Create a gmail or login
+
+3. Create a poject and generate {SITE KEY and SECRET KEY}
+
+4. Add the domains/IPs for which the RECAPTCHA will be used
+
+5. install RECAPTCHA package: {composer require anhskohbo/no-captcha}
+
+6. Open config/app.php and add {Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,} to the providers array
+
+7. Open config/app.php and add 'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class, to the aliases array
+
+8. Update your env file with the lines below
+    RECAPTCHA_KEY=your-site-key
+    RECAPTCHA_SECRET=your-secret-key
+
+9. Publish the recaptcha package by running the command below:
+    php artisan vendor:publish --provider="Anhskohbo\NoCaptcha\NoCaptchaServiceProvider"
+
+10. Use the recaptcha in your blade by puttting the line below:
+    <form method="POST" action="/your-route">
+        @csrf
+        {!! NoCaptcha::renderJs() !!}
+        {!! NoCaptcha::display() !!}
+        <!-- Other form fields go here -->
+        <button type="submit">Submit</button>
+    </form>
+
+11. Validate the recaptcha in your controller as shown below:
+    'g-recaptcha-response' => 'required', OR the lines below:
+
+    OR
+
+    $captchaResponse = NoCaptcha::verifyResponse($request->input('g-recaptcha-response'));
+
+    if (!$captchaResponse) {
+        // reCAPTCHA verification failed
+        // Handle the error or redirect back with an error message
+    }
+
+12. BOOM, You are done implementing RECAPTCHA
