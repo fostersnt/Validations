@@ -20,7 +20,9 @@
     @include('full_calendar.calendar_css')
 
     <!--Toastr css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <!-- Fonts -->
@@ -54,7 +56,15 @@
         }
 
         a.filepond--credits {
-            display: none;
+            display: none !important;
+        }
+        fieldset{
+            /* border-style:solid; */
+        }
+        /* Toastr specific styles */
+        .toast-success {
+            background-color: green;
+            color: white;
         }
 
         /* .filepond--item {width: calc(33% - 0.5em);} */
@@ -63,6 +73,10 @@
 </head>
 
 <body class="">
+    <fieldset>
+        <legend>Title</legend>
+        <p>Hello world</p>
+    </fieldset>
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-md-6" id="left_column">
@@ -120,7 +134,9 @@
 @include('full_calendar.calendar_js')
 
 <!--Toastr js-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 @if (Session::has('success'))
     <script>
@@ -128,7 +144,9 @@
             'progressBar': true,
             'closeButton': true,
         };
-        toastr.success("{{Session::get('success')}}", 'success', {timeOut: 10000});
+        toastr.success("{{ Session::get('success') }}", 'success', {
+            timeOut: 10000
+        });
     </script>
 @endif
 
