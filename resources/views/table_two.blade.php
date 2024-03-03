@@ -27,6 +27,7 @@
                     <button id="filter" class="btn btn-outline-primary">Filter</button>
                     <button id="reset" class="btn btn-outline-warning">Reset</button>
                 </div>
+                <input type="text" name="" id="try">
             </div>
             <div class="">
                 <table id="users_table" class="table" style="height: 100px !important">
@@ -135,9 +136,10 @@
                     data: 'id',
                     name: 'id',
                     render: function(value, type, full, meta) {
+                        console.log(full);
                         return `
                         <div id="action_buttons">
-                            <a href="{{ route('table.one') }}" class="btn btn-info">${value}</a>
+                            <a href="{{ route('table.one') }}" class="btn btn-info" id="edit">${value}</a>
                             <a href="#" class="btn btn-primary">EDIT</a>
                             <a href="#" class="btn btn-danger">DELETE</a>    
                         </div>
