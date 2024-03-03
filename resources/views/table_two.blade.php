@@ -131,38 +131,42 @@
             //     'copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5'
             // ]
             buttons: [
-                // {
-                //     extend: 'csv',
-                //     exportOptions: {
-                //         modifier: {
-                //             page: 'all'
-                //         }
-                //     }
-                // },
-                // {
-                //     extend: 'excel',
-                //     exportOptions: {
-                //         modifier: {
-                //             page: 'all'
-                //         }
-                //     }
-                // },
-                // {
-                //     extend: 'pdf',
-                //     exportOptions: {
-                //         modifier: {
-                //             page: 'all'
-                //         }
-                //     }
-                // },
-                // {
-                //     extend: 'print',
-                //     exportOptions: {
-                //         modifier: {
-                //             page: 'all'
-                //         }
-                //     }
-                // }
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns:[0,1],
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns:[0,1],
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns:[0,1],
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns:[0,1],
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                }
             ]
         });
     });
