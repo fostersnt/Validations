@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\TableOne;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,14 +22,22 @@ class TableOneDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'tableone.action')
+            ->editColumn('created_at', function ($query) {
+                return $query->created_at ? $query->created_at->format('Y-m-d H:i:s') : 'N/A';
+            })
+            ->editColumn('updated_at', function ($query) {
+                return $query->updated_at ? $query->updated_at->format('Y-m-d H:i:s') : 'N/A';
+            })
+            ->addColumn('action', function () {
+                return "bbb";
+            })
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(TableOne $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -40,20 +48,20 @@ class TableOneDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('tableone-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('tableone-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                // Button::make('reset'),
+                // Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +70,16 @@ class TableOneDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
+            Column::make('name'),
+            Column::make('email'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 

@@ -25,10 +25,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Styles -->
 
     <style>
@@ -73,10 +70,13 @@
 </head>
 
 <body class="">
-    <fieldset>
-        <legend>Title</legend>
-        <p>Hello world</p>
-    </fieldset>
+    <div class="row">
+        <ul>
+            <li><a href="{{ route('table.one') }}">Table One</a></li>
+            <li><a href="">Table Two</a></li>
+            <li><a href="">Table Three</a></li>
+        </ul>
+    </div>
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-md-6" id="left_column">
@@ -196,6 +196,5 @@
     });
 </script>
 <script>
-    let my_item = @json($item);
-    alert(my_item)
+   
 </script>
