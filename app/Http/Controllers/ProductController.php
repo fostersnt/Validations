@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\General;
 use App\Jobs\FileUploadJob;
+use App\Models\EventData;
 use App\Models\Product;
 use App\Models\TemporalFile;
 use Illuminate\Http\Request;
@@ -15,8 +16,7 @@ class ProductController extends Controller
 {
     public function show_create()
     {
-        $item = 'God is good';
-        return view('welcome', compact('item'));
+        return view('welcome');
     }
 
     public function create_product(Request $request)

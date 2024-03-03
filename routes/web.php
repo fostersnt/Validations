@@ -36,6 +36,7 @@ Route::get('/abcd', function () {
 Route::prefix('product')->controller(ProductController::class)->group(function(){
     Route::get('show-create', 'show_create')->name('product.show.create');
     Route::post('create', 'create_product')->name('product.create');
+    Route::get('get-events', 'getEvents')->name('product.get.events');
 });
 
 
