@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="table table-responsive">
-        {{-- <form action=""> --}}
             <div class="row">
                 <div class="col-md-3">
                     <label for="">Start Date</label>
@@ -13,15 +12,10 @@
                     <input class="form-control" type="date" name="end_date" id="end_date">
                 </div>
                 <div class="col-md-3">
-                    <label for="">Category</label>
-                    <input class="form-control" type="text" name="category" id="category">
-                </div>
-                <div class="col-md-3">
                     <button id="filter" class="btn btn-outline-primary">Filter</button>
                     <button id="reset" class="btn btn-outline-warning">Reset</button>
                 </div>
             </div>
-        {{-- </form> --}}
         {{ $dataTable->table() }}
     {{ $dataTable->scripts() }}
 

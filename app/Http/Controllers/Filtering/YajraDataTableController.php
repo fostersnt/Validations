@@ -29,7 +29,21 @@ class YajraDataTableController extends Controller
 
     public function table_two_data(Request $request)
     {
-        $users = User::query()->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        Log::info("\nSTART DATE: " . $start_date . "\nEND DATE: " . $end_date);
+
+        if (isset($start_date) && isset($end_date)) {
+            $users = User::query()->whereBetween('created_at', [$start_date, $end_date])->get();
+        } elseif (isset($start_date) && !isset($end_date)) {
+            $users = User::query()->where('created_at', '>=', $start_date)->get();
+        } elseif (!isset($start_date) && isset($end_date)) {
+            $users = User::query()->where('created_at', '<=', $start_date)->get();
+        } else {
+            $users = User::query()->get();
+        }
+
         return DataTables::of($users)->make(true);
     }
 }
