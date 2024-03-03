@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -39,6 +40,12 @@ class TableOneDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
+        $data = $this->data;
+
+        $start_date = $data['start_date'];
+        $end_date = $data['end_date'];
+        $category = $data['category'];
+
         return $model->newQuery();
     }
 
