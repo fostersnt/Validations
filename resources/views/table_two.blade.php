@@ -136,7 +136,8 @@
                     exportOptions: {
                         columns:[0,1],
                         modifier: {
-                            page: 'all'
+                            page: 'all' //Export all pages
+                            // page: [0, 1] //Export first and second pages
                         }
                     }
                 },
@@ -145,7 +146,8 @@
                     exportOptions: {
                         columns:[0,1],
                         modifier: {
-                            page: 'all'
+                            page: 'all' //Export all pages
+                            // page: [0, 1] //Export first and second pages
                         }
                     }
                 },
@@ -154,7 +156,8 @@
                     exportOptions: {
                         columns:[0,1],
                         modifier: {
-                            page: 'all'
+                            page: 'all' //Export all pages
+                            // page: [0, 1] //Export first and second pages
                         }
                     }
                 },
@@ -163,7 +166,8 @@
                     exportOptions: {
                         columns:[0,1],
                         modifier: {
-                            page: 'all'
+                            page: 'all' //Export all pages
+                            //page: [0, 1] //Export first and second pages
                         }
                     }
                 }
