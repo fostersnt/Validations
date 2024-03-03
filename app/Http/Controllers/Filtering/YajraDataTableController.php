@@ -11,7 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class YajraDataTableController extends Controller
 {
-    public function index(Request $request, TableOneDataTable $dataTable)
+    public function table_one(Request $request, TableOneDataTable $dataTable)
     {
         $my_data = [
             'start_date' => $request->start_date,

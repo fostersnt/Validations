@@ -50,5 +50,7 @@ Route::prefix('file')->controller(FilePondProcessingController::class)->group(fu
 });
 
 Route::controller(YajraDataTableController::class)->group(function () {
-    Route::get('table_one', 'index')->name('table.one');
+    Route::get('table_one', 'table_one')->name('table.one');
+    Route::get('table_two', 'table_two')->name('table.two');
+    Route::get('table_two_data', 'table_two_data')->name('table.two.data');
 });
