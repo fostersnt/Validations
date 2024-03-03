@@ -23,6 +23,8 @@
             </div>
         {{-- </form> --}}
         {{ $dataTable->table() }}
+    {{ $dataTable->scripts() }}
+
     </div>
 
     <script>

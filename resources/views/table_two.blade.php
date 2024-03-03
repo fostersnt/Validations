@@ -21,18 +21,15 @@
                 </div>
             </div>
             <div class="">
-                <table id="chale_errors_report" class="table" style="width:100%">
+                <table id="users_table" class="table" style="width:100%">
                     <thead>
                         <tr>
                             {{-- <th>ID</th> --}}
-                            <th>Nominee</th>
-                            <th>Nominee Phone</th>
-                            <th>Nominator Phone</th>
-                            <th>Code</th>
-                            <th>Transaction ID</th>
-                            <th>Response</th>
-                            <th>Age Range</th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
                             <th>Created At</th>
+                            <th>Updated At</th>
                         </tr>
                     </thead>
                 </table>
@@ -41,124 +38,88 @@
 
     <script>
     $('#filter').on('click', function() {
-        $('#tableone-table') //This id is the dataTable's ID defined in your datatable class
+        $('#users_table') //This id is the dataTable's ID defined in your datatable class
         .on('preXhr.dt', function(e, settings, data) {
             data.start_date = $('#start_date').val();
             data.end_date = $('#end_date').val();
         });
 
-        $('#tableone-table').DataTable().ajax.reload();
+        $('#users_table').DataTable().ajax.reload();
         return false;
     });
 
     $('#reset').on('click', function() {
-        $('#tableone-table') //This id is the dataTable's ID defined in your datatable class
+        $('#users_table') //This id is the dataTable's ID defined in your datatable class
         .on('preXhr.dt', function(e, settings, data) {
             data.start_date = null;
             data.end_date = null;
         });
 
-        $('#tableone-table').DataTable().ajax.reload();
+        $('#users_table').DataTable().ajax.reload();
         return false;
     });
 </script>
 <script>
     $(document).ready(function() {
-        $('#chale_errors_report').DataTable({
+        $('#users_table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('chale.errors.report') }}",
+                url: "{{ route('table.two.data') }}",
                 type: 'GET'
             },
             columns: [
                 // { data: 'id', name: 'id' },
                 {
-                    data: 'nominee',
-                    name: 'nominee',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
+                    data: 'id',
+                    name: 'id',
+                    render: function(value, type, full, meta) {
+                        if (value == '' || value == null) {
+                            return 'N/A';
                         }
-                        return data; // Return the original data for sorting and other types
+                        return value;
                     }
                 },
                 {
-                    data: 'nominee_phone',
-                    name: 'nominee_phone',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
+                    data: 'name',
+                    name: 'name',
+                    render: function(value, type, full, meta) {
+                        if (value == '' || value == null) {
+                            return 'N/A';
                         }
-                        return data; // Return the original data for sorting and other types
+                        return value;
                     }
                 },
                 {
-                    data: 'nominator_phone',
-                    name: 'nominator_phone',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
+                    data: 'email',
+                    name: 'email',
+                    render: function(value, type, full, meta) {
+                        if (value == '' || value == null) {
+                            return 'N/A';
                         }
-                        return data; // Return the original data for sorting and other types
-                    }
-                },
-                {
-                    data: 'code',
-                    name: 'code',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
-                        }
-                        return data; // Return the original data for sorting and other types
-                    }
-                },
-                {
-                    data: 'transaction_id',
-                    name: 'transaction_id',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
-                        }
-                        return data; // Return the original data for sorting and other types
-                    }
-                },
-                {
-                    data: 'response',
-                    name: 'response',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
-                        }
-                        return data; // Return the original data for sorting and other types
-                    }
-                },
-                {
-                    data: 'dob',
-                    name: 'dob',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
-                        }
-                        return data; // Return the original data for sorting and other types
+                        return value;
                     }
                 },
                 {
                     data: 'created_at',
                     name: 'created_at',
-                    render: function(data, type, full, meta) {
-                        if (data == '' || data == null) {
-                            // Format the date using Moment.js
-                            return 'N/A'; // Customize the format
+                    render: function(value, type, full, meta) {
+                        if (value == '' || value == null) {
+                            return 'N/A';
                         }
-                        return moment(data).format(
+                        return moment(value).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                        ); // Return the original data for sorting and other types
+                    }
+                },
+                {
+                    data: 'updated_at',
+                    name: 'updated_at',
+                    render: function(value, type, full, meta) {
+                        if (value == '' || value == null) {
+                            return 'N/A';
+                        }
+                        return moment(value).format(
                             'YYYY-MM-DD HH:mm:ss'
                         ); // Return the original data for sorting and other types
                     }

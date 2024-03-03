@@ -30,6 +30,6 @@ class YajraDataTableController extends Controller
     public function table_two_data(Request $request)
     {
         $users = User::query()->get();
-        return DataTables::of($users);
+        return DataTables::of($users)->make(true);
     }
 }
