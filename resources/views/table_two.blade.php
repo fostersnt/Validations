@@ -1,6 +1,18 @@
 @extends('layout.admin')
 
 @section('content')
+<style>
+    #action_buttons{
+        display: flex;
+    }
+    #action_buttons > a{
+        margin-left: 5px;
+        text-decoration: none;
+    }
+    #action_buttons > a:nth-child(1){
+        color: white !important;
+    }
+</style>
     <div class="table table-responsive">
             <div class="row">
                 <div class="col-md-3">
@@ -17,15 +29,15 @@
                 </div>
             </div>
             <div class="">
-                <table id="users_table" class="table" style="height: 100px">
+                <table id="users_table" class="table" style="height: 100px !important">
                     <thead>
                         <tr>
-                            {{-- <th>ID</th> --}}
-                            <th>Id</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Created At</th>
                             <th>Updated At</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -65,7 +77,6 @@
                 type: 'GET'
             },
             columns: [
-                // { data: 'id', name: 'id' },
                 {
                     data: 'id',
                     name: 'id',
@@ -118,6 +129,19 @@
                         return moment(value).format(
                             'YYYY-MM-DD HH:mm:ss'
                         ); // Return the original data for sorting and other types
+                    }
+                },
+                {
+                    data: 'id',
+                    name: 'id',
+                    render: function(value, type, full, meta) {
+                        return `
+                        <div id="action_buttons">
+                            <a href="{{ route('table.one') }}" class="btn btn-info">${value}</a>
+                            <a href="#" class="btn btn-primary">EDIT</a>
+                            <a href="#" class="btn btn-danger">DELETE</a>    
+                        </div>
+                        `
                     }
                 }
             ],
