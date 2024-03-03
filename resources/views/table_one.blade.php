@@ -26,19 +26,11 @@
     </div>
 
     <script>
-        // $('#tableone-table'); //This id is the dataTable's ID defined in your datatable class
-        // .on('preXhr.dt', function(e, settings, data) {
-        //     data.start_date = $('#start_date').val();
-        //     data.end_date = $('#end_date').val();
-        //     data.category = $('#category').val();
-        // });
-
     $('#filter').on('click', function() {
         $('#tableone-table') //This id is the dataTable's ID defined in your datatable class
         .on('preXhr.dt', function(e, settings, data) {
             data.start_date = $('#start_date').val();
             data.end_date = $('#end_date').val();
-            data.category = $('#category').val();
         });
 
         $('#tableone-table').DataTable().ajax.reload();
@@ -50,7 +42,6 @@
         .on('preXhr.dt', function(e, settings, data) {
             data.start_date = null;
             data.end_date = null;
-            data.category = null;
         });
 
         $('#tableone-table').DataTable().ajax.reload();
