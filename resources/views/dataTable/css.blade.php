@@ -13,4 +13,14 @@
     table thead th{
         color: white !important;
     }
+    .buttons-html5,.buttons-print{
+        background-color: #0d6efd !important;
+        color: white !important;
+        border: none !important;
+        /* margin: 5px !important; */
+    }
+    .dt-column-order{
+        color: white !important;
+        /* background-color: white !important; */
+    }
 </style>

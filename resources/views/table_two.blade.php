@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="">
-                <table id="users_table" class="table">
+                <table id="users_table" class="table" style="height: 100px">
                     <thead>
                         <tr>
                             {{-- <th>ID</th> --}}
