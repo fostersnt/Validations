@@ -55,10 +55,10 @@ class TableOneDataTable extends DataTable
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
+                Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
+                Button::make('csv')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
+                Button::make('pdf')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
+                Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
                 // Button::make('reset'),
                 // Button::make('reload')
             ]);
@@ -75,7 +75,7 @@ class TableOneDataTable extends DataTable
             Column::make('email'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
+            Column::make('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
