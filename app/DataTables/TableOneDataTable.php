@@ -44,9 +44,15 @@ class TableOneDataTable extends DataTable
 
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
-        $category = $data['category'];
 
-        return $model->newQuery();
+        if (isset($start_date) && isset($end_date)) {
+            $query = User::query()->whereBetween('created_at', [$start_date, $end_date]);
+        } elseif (isset($start_date) && !isset($end_date)) {
+            $query = User::query()->where('created_at', '>=', $start_date);
+        } else {
+            $query = User::query();
+        }
+        return $query;
     }
 
     /**

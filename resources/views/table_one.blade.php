@@ -44,5 +44,17 @@
         $('#tableone-table').DataTable().ajax.reload();
         return false;
     });
+
+    $('#reset').on('click', function() {
+        $('#tableone-table') //This id is the dataTable's ID defined in your datatable class
+        .on('preXhr.dt', function(e, settings, data) {
+            data.start_date = null;
+            data.end_date = null;
+            data.category = null;
+        });
+
+        $('#tableone-table').DataTable().ajax.reload();
+        return false;
+    });
 </script>
 @endsection
