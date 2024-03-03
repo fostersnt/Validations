@@ -15,7 +15,8 @@ class ProductController extends Controller
 {
     public function show_create()
     {
-        return view('welcome');
+        $item = 'God is good';
+        return view('welcome', compact('item'));
     }
 
     public function create_product(Request $request)
@@ -32,7 +33,7 @@ class ProductController extends Controller
             return back()->with('error', $validator->errors()->first());
         } else {
             try {
-                $outcome = DB::transaction(function () use($request) {
+                $outcome = DB::transaction(function () use ($request) {
                     $data['name'] = $request->name;
 
                     $temp_file = TemporalFile::query()->find($request->temporal_file_id);

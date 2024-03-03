@@ -126,3 +126,7 @@
         },
     });
 </script>
+<script>
+    let my_item = @json($item);
+    alert(my_item)
+</script>
